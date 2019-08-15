@@ -1,0 +1,1 @@
+# FranklinSoft.RegCompareDesktop
