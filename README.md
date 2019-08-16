@@ -8,8 +8,8 @@
 
 ## Installation
 
-[![Foo](https://img.shields.io/badge/download-latest-green)](https://github.com/DouganRedhammer/FranklinSoft.RegCompareDesktop/releases/latest)
-The installer will remove previous version before installing.
+[![Foo](https://img.shields.io/badge/download-latest-green)](https://github.com/DouganRedhammer/FranklinSoft.RegCompareDesktop/releases/latest)  
+The Setup will remove the previous version before installing.  
 Use the zip for the non-install version.
 
 ## Release Notes
