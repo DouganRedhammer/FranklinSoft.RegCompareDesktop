@@ -171,26 +171,13 @@ namespace FranklinSoft.RegCompareDesktop
 
         private async Task PopulateTabs()
         {
-            var result = _machineARegistryEntries.Except(_machineBRegistryEntries, new MissingRegistryEntryComparer()).ToList();
-            _missingEntriesFromMachineB = result;
+            _missingEntriesFromMachineB = RegistryCompare.FindMissingRegistryEntries(_machineARegistryEntries, _machineBRegistryEntries);
             PopulateTab(_missingEntriesFromMachineB, dataGridView3);
 
-            result = _machineBRegistryEntries.Except(_machineARegistryEntries, new MissingRegistryEntryComparer()).ToList();
-            _missingEntriesFromMachineA = result;
+            _missingEntriesFromMachineA = RegistryCompare.FindMissingRegistryEntries(_machineBRegistryEntries, _machineARegistryEntries);
             PopulateTab(_missingEntriesFromMachineA, dataGridView4);
 
-            var matches = from A in _machineARegistryEntries
-                          join B in _machineBRegistryEntries on A.Name.ToLower() equals B.Name.ToLower()
-                          where A.Data != B.Data
-                          select new RegistryEntryDifference()
-                          {
-                              Name = A.Name,
-                              Location = A.Location,
-                              Type = A.Type,
-                              MachineAData = A.Data,
-                              MachineBData = B.Data
-                          };
-            _registryEntryDifferences = matches.ToList();
+            _registryEntryDifferences = RegistryCompare.FindMatchingRegistryEntries(_machineARegistryEntries, _machineBRegistryEntries);
             PopulateTab(_registryEntryDifferences, dataGridView5);
         }
 
