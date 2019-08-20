@@ -13,7 +13,7 @@ The Setup will remove the previous version before installing.
 Use the zip for the non-install version.
 
 ## Release Notes
-* Replaced synchronous calls with async versions
+* Added error handling and replaced more sync calls with async
 
 
 License
