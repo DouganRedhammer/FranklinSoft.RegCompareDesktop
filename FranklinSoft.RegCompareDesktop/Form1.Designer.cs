@@ -65,6 +65,8 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.combobox_registryHive = new System.Windows.Forms.ComboBox();
             this.registryHive_lbl = new System.Windows.Forms.Label();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabControl1.SuspendLayout();
             this.s.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -80,6 +82,7 @@
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView5)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // contextMenuStrip1
@@ -100,7 +103,7 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 142);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(775, 405);
+            this.tabControl1.Size = new System.Drawing.Size(775, 421);
             this.tabControl1.TabIndex = 1;
             // 
             // s
@@ -109,7 +112,7 @@
             this.s.Location = new System.Drawing.Point(4, 22);
             this.s.Name = "s";
             this.s.Padding = new System.Windows.Forms.Padding(3);
-            this.s.Size = new System.Drawing.Size(767, 379);
+            this.s.Size = new System.Drawing.Size(767, 395);
             this.s.TabIndex = 0;
             this.s.Text = "MachineA";
             this.s.UseVisualStyleBackColor = true;
@@ -127,7 +130,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.dataGridView1.Size = new System.Drawing.Size(761, 357);
+            this.dataGridView1.Size = new System.Drawing.Size(761, 373);
             this.dataGridView1.TabIndex = 0;
             // 
             // MachineB
@@ -467,11 +470,27 @@
             this.registryHive_lbl.TabIndex = 12;
             this.registryHive_lbl.Text = "Registry Hive";
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 566);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(797, 22);
+            this.statusStrip1.TabIndex = 13;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(0, 17);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(797, 559);
+            this.ClientSize = new System.Drawing.Size(797, 588);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.registryHive_lbl);
             this.Controls.Add(this.combobox_registryHive);
             this.Controls.Add(this.menuStrip1);
@@ -506,6 +525,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView5)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -547,6 +568,8 @@
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.ComboBox combobox_registryHive;
         private System.Windows.Forms.Label registryHive_lbl;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
     }
 }
 

@@ -58,7 +58,8 @@ namespace FranklinSoft.RegCompareDesktop
 
         private async void button1_Click(object sender, EventArgs e)
         {
-
+            ClearDataTables();
+            ClearStatusBar();
             var tokenSource = new CancellationTokenSource();
             var token = tokenSource.Token;
 
@@ -93,29 +94,31 @@ namespace FranklinSoft.RegCompareDesktop
             machineLabel.Text = "Testing Connection";
             machineLabel.Visible = true;
 
-            Task<bool> testConnection = Task<bool>.Factory.StartNew(() =>
+            TestConnectionResult testConnection =
+                await RegistryCompare.TestConnectionAsync(machineName, tokenSource, token, _testConnectionTimeout);
+
+            if (!testConnection.Successful)
             {
-                machineLabel.Text = "Testing Connection";
-                TestConnectionResult result = RegistryCompare.TestConnection(machineName);
-                return result.Successful;
-            }, tokenSource.Token);
-            if (await Task.WhenAny(testConnection, Task.Delay(_testConnectionTimeout, token)) == testConnection)
-            {
-                await testConnection;
-            }
-            else
-            {
-                machineLabel.Text = "Connection Timedout";
-            }
-            if (!testConnection.Result)
-            {
+                if (testConnection.ErrorCode == ErrorCodes.SECURITY_EXCEPTION ||
+                    testConnection.ErrorCode == ErrorCodes.UNAUTHORIZED_ACCESS_EXCEPTION)
+                {
+                    machineLabel.Text = "Access Denied";
+                }
+                else if (testConnection.ErrorCode == ErrorCodes.IO_EXCEPTION)
+                {
+                    machineLabel.Text = "Invalid Machine Name.";
+                }
+                else if (testConnection.ErrorCode == ErrorCodes.TIMEOUT)
+                {
+                    machineLabel.Text = "Connection Timeout.";
+                }
                 try
                 {
-
+                    SetStatusStripText("Error");
                     tokenSource.Cancel();
                     token.ThrowIfCancellationRequested();
                 }
-                catch (OperationCanceledException) { machineLabel.Text = "Connection Failed"; }
+                catch (OperationCanceledException) { }
             }
             else
             {
@@ -127,19 +130,25 @@ namespace FranklinSoft.RegCompareDesktop
         {
             machineLabel.Text = "Loading Registry";
             machineLabel.Visible = true;
-            Task<List<RegistryEntry>> regKeysMachine = Task<List<RegistryEntry>>.Factory.StartNew(() =>
+
+            RegistryEntriesResult result = await RegistryCompare.GetRegistryEntriesAsync(registryHive, textbox_registryKeyRoot.Text, machineName, tokenSource, token, _testConnectionTimeout);
+
+            if (!result.Successful)
             {
-                RegistryEntriesResult result = RegistryCompare.GetRegistryEntries(registryHive, textbox_registryKeyRoot.Text, machineName);
-                return result.RegistryEntries;
-            }, tokenSource.Token);
-            if (await Task.WhenAny(regKeysMachine, Task.Delay(_retrieveRegistryTimeout, token)) == regKeysMachine)
-            {
-                await regKeysMachine;
-                machineLabel.Text = "Loaded";
-                return regKeysMachine.Result;
-            }
-            else
-            {
+                if (result.ErrorCode == ErrorCodes.SECURITY_EXCEPTION ||
+                    result.ErrorCode == ErrorCodes.UNAUTHORIZED_ACCESS_EXCEPTION)
+                {
+                    machineLabel.Text = "Access Denied";
+                }
+                else if (result.ErrorCode == ErrorCodes.IO_EXCEPTION)
+                {
+                    machineLabel.Text = "Invalid Machine Name.";
+                }
+                else if (result.ErrorCode == ErrorCodes.TIMEOUT)
+                {
+                    machineLabel.Text = "Connection Timeout.";
+                }
+
                 try
                 {
                     tokenSource.Cancel();
@@ -147,10 +156,13 @@ namespace FranklinSoft.RegCompareDesktop
                 }
                 catch (OperationCanceledException)
                 {
-                    machineLabel.Text = "Connection Failed: Timed out retreiving keys";
+                    SetStatusStripText("Error");
+                    return new List<RegistryEntry>(){}; 
                 }
             }
-            return new List<RegistryEntry>();
+            SetStatusStripText("Success");
+            machineLabel.Text = "Loaded";
+            return result.RegistryEntries;
         }
 
         private void PopulateRegistryTable(Label machineLabel, DataGridView dataGridView, List<RegistryEntry> machineRegistryEntries)
@@ -320,6 +332,11 @@ namespace FranklinSoft.RegCompareDesktop
             dataGridView5.DataSource = table;
         }
 
+        private void SetStatusStripText(string text)
+        {
+            toolStripStatusLabel1.Text = text;
+        }
+
         private void ClearDataTables()
         {
             dataGridView1.DataSource = null;
@@ -332,6 +349,11 @@ namespace FranklinSoft.RegCompareDesktop
             dataGridView4.Refresh();
             dataGridView5.DataSource = null;
             dataGridView5.Refresh();
+        }
+
+        private void ClearStatusBar()
+        {
+            toolStripStatusLabel1.Text = string.Empty;
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)

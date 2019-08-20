@@ -36,8 +36,8 @@
     <ApplicationIcon>comparev3.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FranklinSoft.RegCompare, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FranklinSoft.RegCompare.1.1.1\lib\net461\FranklinSoft.RegCompare.dll</HintPath>
+    <Reference Include="FranklinSoft.RegCompare, Version=1.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FranklinSoft.RegCompare.1.2.2\lib\net461\FranklinSoft.RegCompare.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
